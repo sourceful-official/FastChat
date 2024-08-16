@@ -1,0 +1,57 @@
+{
+  "frontier_text": {
+    "model_name": "model_class:frontier_text",
+    "description": "The frontier class text model that knows nothing special about Sourceful.",
+    "api_type": "openai_no_stream",
+    "api_base": "https://a8r.sourceful.io/gen-ai-gateway/api/v1",
+    "api_key": "API_GATEWAY_KEY",
+    "anony_only": false,
+    "recommended_config": {
+      "temperature": 0.7,
+      "top_p": 1.0
+    },
+    "text-arena": true,
+    "vision-arena": false
+  },
+
+  "frontier_text_sourceful_prompt": {
+    "model_name": "model_class:frontier_text",
+    "api_type": "openai_no_stream",
+    "api_base": "https://a8r.sourceful.io/gen-ai-gateway/api/v1",
+    "api_key": "API_GATEWAY_KEY",
+    "anony_only": false,
+    "system_prompt": "Sourceful's mission statement is to find products using AI.",
+    "recommended_config": {
+      "temperature": 0.7,
+      "top_p": 1.0
+    },
+    "text-arena": true,
+    "vision-arena": false
+  },
+  "frontier_lightning": {
+    "model_name": "model_class:frontier_lightning",
+    "api_type": "openai_no_stream",
+    "api_base": "https://a8r.sourceful.io/gen-ai-gateway/api/v1",
+    "api_key": "API_GATEWAY_KEY",
+    "anony_only": false,
+    "recommended_config": {
+      "temperature": 0.7,
+      "top_p": 1.0
+    },
+    "text-arena": true,
+    "vision-arena": false
+  },
+  "frontier_online": {
+    "model_name": "model_class:frontier_online",
+    "api_type": "openai_no_stream",
+    "api_base": "https://a8r.sourceful.io/gen-ai-gateway/api/v1",
+    "api_key": "API_GATEWAY_KEY",
+    "anony_only": false,
+    "recommended_config": {
+      "temperature": 0.7,
+      "top_p": 1.0
+    },
+    "text-arena": true,
+    "vision-arena": false
+  }
+}

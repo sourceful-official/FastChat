@@ -16,8 +16,6 @@ dist
 .idea
 *.swp
 
-api_endpoints.json
-
 # Other
 .DS_Store
 wandb

@@ -17,7 +17,7 @@ pip3 install -e ".[model_worker,webui]"
 
 3. Update the api_endpoints.json file
 
-   - Copy the api_endpoints_example.json into api_endpoints.json
+   - cp api_endpoints.json.example api_endpoints.json
    - Replace the api_key placeholder with the Gateway api_key (available in 1Password).
 
 4. Run the controller
