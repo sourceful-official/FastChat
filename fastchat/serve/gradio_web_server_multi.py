@@ -57,7 +57,7 @@ def load_demo(url_params, request: gr.Request):
     ip = get_ip(request)
     logger.info(f"load_demo. ip: {ip}. params: {url_params}")
 
-    inner_selected = 0
+    inner_selected = 1
     if "arena" in url_params:
         inner_selected = 0
     elif "vision" in url_params:
@@ -102,10 +102,7 @@ def load_demo(url_params, request: gr.Request):
 
 
 def build_demo(models, vl_models, elo_results_file, leaderboard_table_file):
-    if args.show_terms_of_use:
-        load_js = get_window_url_params_with_tos_js
-    else:
-        load_js = get_window_url_params_js
+    load_js = get_window_url_params_js
 
     head_js = """
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -132,23 +129,24 @@ window.__gradio_mode__ = "app";
         with gr.Tabs() as inner_tabs:
             if args.vision_arena:
                 with gr.Tab("⚔️ Arena (battle)", id=0) as arena_tab:
-                    arena_tab.select(None, None, None, js=load_js)
+                    arena_tab.select(None, None, None, js="")
                     side_by_side_anony_list = build_side_by_side_vision_ui_anony(
                         all_models,
                         all_vl_models,
                         random_questions=args.random_questions,
                     )
             else:
-                with gr.Tab("⚔️ Arena (battle)", id=0) as arena_tab:
-                    arena_tab.select(None, None, None, js=load_js)
-                    side_by_side_anony_list = build_side_by_side_ui_anony(models)
+                with gr.Tab("⚔️ Arena (side-by-side)", id=2) as side_by_side_tab:
+                    side_by_side_tab.select(None, None, None, js="")
+                    side_by_side_named_list = build_side_by_side_ui_named(models)
+                # with gr.Tab("⚔️ Arena (battle)", id=0) as arena_tab:
+                #     arena_tab.select(None, None, None, js=load_js)
+                #     side_by_side_anony_list = build_side_by_side_ui_anony(models)
 
-            with gr.Tab("⚔️ Arena (side-by-side)", id=2) as side_by_side_tab:
-                side_by_side_tab.select(None, None, None, js=alert_js)
-                side_by_side_named_list = build_side_by_side_ui_named(models)
+            
 
             with gr.Tab("💬 Direct Chat", id=3) as direct_tab:
-                direct_tab.select(None, None, None, js=alert_js)
+                direct_tab.select(None, None, None, js="")
                 single_model_list = build_single_model_ui(
                     models, add_promotion_links=True
                 )
@@ -156,7 +154,6 @@ window.__gradio_mode__ = "app";
             demo_tabs = (
                 [inner_tabs]
                 + single_model_list
-                + side_by_side_anony_list
                 + side_by_side_named_list
             )
 
@@ -165,9 +162,6 @@ window.__gradio_mode__ = "app";
                     build_leaderboard_tab(
                         elo_results_file, leaderboard_table_file, show_plot=True
                     )
-
-            with gr.Tab("ℹ️ About Us", id=5):
-                about = build_about()
 
         url_params = gr.JSON(visible=False)
 
@@ -208,7 +202,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model-list-mode",
         type=str,
-        default="once",
+        default="reload",
         choices=["once", "reload"],
         help="Whether to load the model list once or reload the model list every time.",
     )

@@ -37,6 +37,7 @@ def get_api_provider_stream_iter(
             max_new_tokens,
             api_base=model_api_dict["api_base"],
             api_key=model_api_dict["api_key"],
+            system_prompt=model_api_dict.get("system_prompt"),
         )
     elif model_api_dict["api_type"] == "openai_no_stream":
         prompt = conv.to_openai_api_messages()
@@ -49,6 +50,7 @@ def get_api_provider_stream_iter(
             api_base=model_api_dict["api_base"],
             api_key=model_api_dict["api_key"],
             stream=False,
+            system_prompt=model_api_dict.get("system_prompt"),
         )
     elif model_api_dict["api_type"] == "openai_assistant":
         last_prompt = conv.messages[-2][1]
@@ -218,6 +220,7 @@ def openai_api_stream_iter(
     api_base=None,
     api_key=None,
     stream=True,
+    system_prompt=None,
 ):
     import openai
 
@@ -238,6 +241,9 @@ def openai_api_stream_iter(
 
     # Make requests for logging
     text_messages = []
+
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
     for message in messages:
         if type(message["content"]) == str:  # text-only model
             text_messages.append(message)
@@ -266,14 +272,19 @@ def openai_api_stream_iter(
             max_tokens=max_new_tokens,
             stream=True,
         )
+        print(res)
+
         text = ""
         for chunk in res:
+            print(chunk)
             if len(chunk.choices) > 0:
+                print(chunk.choices[0].delta.content)
                 text += chunk.choices[0].delta.content or ""
                 data = {
                     "text": text,
                     "error_code": 0,
                 }
+                print(data)
                 yield data
     else:
         res = client.chat.completions.create(
@@ -281,7 +292,13 @@ def openai_api_stream_iter(
             messages=messages,
             temperature=temperature,
             max_tokens=max_new_tokens,
+            extra_headers= {
+                "application":"arena",
+                "user": "userId",
+                "query_category": "testing",
+            },
             stream=False,
+
         )
         text = res.choices[0].message.content
         pos = 0

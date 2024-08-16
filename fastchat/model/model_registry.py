@@ -135,6 +135,34 @@ register_model_info(
 )
 
 register_model_info(
+    ["frontier_text"],
+    "Frontier Text",
+    "https://www.sourceful.com",
+    "The frontier class text model that knows nothing special about Sourceful.",
+)
+
+register_model_info(
+    ["frontier_online"],
+    "Frontier Online",
+    "https://www.sourceful.com",
+    "Accesses search and the web to provide more up-to-date information.",
+)
+
+register_model_info(
+    ["frontier_text_sourceful_prompt"],
+    "Frontier Online",
+    "https://www.sourceful.com",
+    "Same as Frontier Online, but with a Sourceful system prompt with lots of context about Sourceful.",
+)
+
+register_model_info(
+    ["frontier_lightning"],
+    "Frontier Lightning",
+    "https://www.sourceful.com",
+    "Super fast model that is pretty good.",
+)
+
+register_model_info(
     [
         "gpt-3.5-turbo",
         "gpt-3.5-turbo-0125",
